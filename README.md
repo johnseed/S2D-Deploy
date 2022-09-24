@@ -66,4 +66,14 @@ Write-Output "Setting the CSV cache..."
 $CSVCurrentCacheSize = (Get-Cluster $ClusterName).BlockCacheSize
 Write-Output "$ClusterName CSV cache size: $CSVCurrentCacheSize MB"
 
+# Install Failover Cluster Manager
+Add-WindowsFeature RSAT-Clustering-Mgmt
 ```
+Open Failover Cluster Manager, configure role, select File Server, select SOFS, create file shares.
+
+## Mount
+
+`mount -t cifs -o username=share,password=yourpwd,vers=3.0 //SOFS.s2d.com/Share /mnt/s2d`
+
+edit /etc/fstab
+`//SOFS.s2d.com/Share   /mnt/s2d            cifs    username=share,password=yourpwd 0 0`
