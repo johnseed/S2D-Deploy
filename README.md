@@ -12,7 +12,7 @@ Deploy Storage Spaces Direct on Windows Server
 - mount cifs error 5 input/output error : upgrade system, e.g. CentOS 7.6 upgrade to 7.9
 
 ## Deploy
-[Reference](https://learn.microsoft.com/en-us/windows-server/storage/storage-spaces/deploy-storage-spaces-direct?source=docs). 
+[Reference](https://learn.microsoft.com/en-us/windows-server/storage/storage-spaces/deploy-storage-spaces-direct?source=docs)  
 install system, create domain controller, join domain. then
 ```powershell
 $ServerList = "win-node1.s2d.com", "win-node2.s2d.com", "WIN-node3.s2d.com"
@@ -46,8 +46,24 @@ Test-Cluster -Node win-nod1.s2d.com, win-node2.s2d.com, win-node3.s2d.com -Inclu
 # Create the cluster
 New-Cluster -Name SASCluster -Node win-nod1.s2d.com, win-node2.s2d.com, win-node3.s2d.com -NoStorage
 
+# Enable Storage Spaces Direct
 Enable-ClusterStorageSpacesDirect
+
+# Create volume with max size
 New-Volume -UseMaximumSize
+
+# mount volume as drive (optional)
+mountvol # get volume guid
 mountvol S: \\?\Volume{891f956c-bbc9-41dc-94fc-2fdbd58213a2}\
+
+# enable the CSV cache
+$ClusterName = "StorageSpacesDirect1"
+$CSVCacheSize = 2048 #Size in MB
+
+Write-Output "Setting the CSV cache..."
+(Get-Cluster $ClusterName).BlockCacheSize = $CSVCacheSize
+
+$CSVCurrentCacheSize = (Get-Cluster $ClusterName).BlockCacheSize
+Write-Output "$ClusterName CSV cache size: $CSVCurrentCacheSize MB"
 
 ```
