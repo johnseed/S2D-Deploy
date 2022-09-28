@@ -9,7 +9,7 @@ Deploy Storage Spaces Direct on Windows Server
 - Max volume size 64TB : don't use WindowsAdminCenter to create volume, powershell `New-Volume -UseMaximumSize`
 - RAID not supported : Change RAID Personality to JBOD
 - mount destination unreachable : install keyutils cifs-utils
-- mount cifs error 5 input/output error : upgrade system, e.g. CentOS 7.6 upgrade to 7.9
+- mount cifs error 5 input/output error : upgrade system, e.g. [CentOS 7.6 upgrade to 7.9](https://access.redhat.com/discussions/5509261). [Offline upgrade](https://blog.csdn.net/Post_Yuan/article/details/79455379).
 
 ## Deploy
 [Reference](https://learn.microsoft.com/en-us/windows-server/storage/storage-spaces/deploy-storage-spaces-direct?source=docs)  
